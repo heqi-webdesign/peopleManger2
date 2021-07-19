@@ -66,23 +66,33 @@ export default {
     // 登录
     loginIn() {
       // 表单校验
-      this.$refs.gform.validate(result => {
+      this.$refs.gform.validate(async result => {
         if (result) {
           // 发起请求
-          logiAPI({
-            mobile: this.formdate.username,
-            password: this.formdate.password
-          })
-            .then(res => {
-              this.$message.success('登陆成功')
-              this.$store.dispatch('user/settoken', res.data.data)
-              console.log(res)
+          // 使用async await改造代码
+          try {
+            // 开启按钮旋转等待
+            this.loading = true
+            // 发送登录请求
+            const res = await logiAPI({
+              mobile: this.formdate.username,
+              password: this.formdate.password
             })
-            .catch(err => {
-              console.log(err)
-            })
+            // 请求成功逻辑 提示用户 保存token 跳转页面
+            this.$message.success('登陆成功')
+            this.$store.dispatch('user/settoken', res)
+            this.$router.push('/')
+            console.log(res)
+          } catch (err) {
+            console.log(err)
+          } finally {
+            // 无论如何关闭旋转等待
+            this.loading = false
+          }
         } else {
+          // 表单验证未通过
           this.$message.error('验证不通过')
+          this.$refs.gform.resetFields()
         }
       })
     }
