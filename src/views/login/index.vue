@@ -75,6 +75,7 @@ export default {
           })
             .then(res => {
               this.$message.success('登陆成功')
+              this.$store.dispatch('user/settoken', res.data.data)
               console.log(res)
             })
             .catch(err => {
