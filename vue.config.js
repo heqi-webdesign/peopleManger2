@@ -35,6 +35,12 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
+    },
+    // 添加跨域代理
+    proxy : {
+      '/api':{
+        target : 'http://localhost:3000'
+      }
     }
 
     // before: require('./mock/mock-server.js')
