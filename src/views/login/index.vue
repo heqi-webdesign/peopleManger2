@@ -32,9 +32,11 @@
 </template>
 
 <script>
+import { logiAPI } from '@/api/user'
 export default {
   data() {
     return {
+      // 获取数据 发起请求
       formdate: {
         username: '13800000002',
         password: '123456'
@@ -61,9 +63,26 @@ export default {
     }
   },
   methods: {
+    // 登录
     loginIn() {
+      // 表单校验
       this.$refs.gform.validate(result => {
-        console.log(result)
+        if (result) {
+          // 发起请求
+          logiAPI({
+            mobile: this.formdate.username,
+            password: this.formdate.password
+          })
+            .then(res => {
+              this.$message.success('登陆成功')
+              console.log(res)
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        } else {
+          this.$message.error('验证不通过')
+        }
       })
     }
   }

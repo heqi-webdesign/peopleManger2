@@ -37,9 +37,10 @@ module.exports = {
       errors: true
     },
     // 添加跨域代理
-    proxy : {
-      '/api':{
-        target : 'http://localhost:3000'
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
       }
     }
 
