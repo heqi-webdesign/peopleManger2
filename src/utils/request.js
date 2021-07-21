@@ -1,15 +1,22 @@
 // 封装axios
 import axios from 'axios'
 import { Message } from 'element-ui'
+// 获得token
+import store from '@/store'
 
 const request = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 5000
 })
 
-// 请求拦截器
+// 请求拦截器 在请求当中附带token
 request.interceptors.request.use(
   config => {
+    // 添加一个判断 如果有token 就添加上请求头 附带token
+    const token = store.getters.token
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
     return config
   },
   error => {

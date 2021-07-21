@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 
+// 登录请求
 export function logiAPI(data) {
   return request({
     url: '/sys/login',
@@ -8,6 +9,12 @@ export function logiAPI(data) {
   })
 }
 
-export function getInfAPI() {}
+// 获取用户信息
+export function getuserInfoAPI() {
+  return request({
+    url: '/sys/profile',  
+    method: 'POST'
+  })
+}
 
 export function logoutAPI() {}

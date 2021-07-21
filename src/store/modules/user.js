@@ -3,7 +3,8 @@ export default {
   namespaced: true,
   state: {
     // 获得token
-    token: getToken()
+    token: getToken(),
+    userinfo: {}
   },
   mutations: {
     // 设置token
@@ -15,6 +16,14 @@ export default {
     REMOVETOKEN(state) {
       removeToken()
       state.token = null
+    },
+    // 获得用户信息
+    GETUSERINFO(state, payload) {
+      state.userinfo = payload
+    },
+    // 删除用户信息
+    REMOVEUSERINFO(state) {
+      state.userinfo = null
     }
   },
   actions: {
@@ -25,6 +34,13 @@ export default {
     // 调用删除
     removetoken(context) {
       context.commit('REMOVETOKEN')
+    },
+    // 调用获取用户信息
+    getuserInfo(context, payload) {
+      context.commit('GETUSERINFO', payload)
+    },
+    removeUserinfo(context) {
+      context.commit('REMOVEUSERINFO')
     }
   }
 }
