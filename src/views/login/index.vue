@@ -82,7 +82,6 @@ export default {
             this.$message.success('登陆成功')
             this.$store.dispatch('user/settoken', res)
             this.$router.push('/')
-            console.log(res)
           } catch (err) {
             console.log(err)
           } finally {
