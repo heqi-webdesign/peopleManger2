@@ -11,8 +11,9 @@
       <div>
         <el-dropdown>
           <span class="el-dropdown-link">
-            <img src="@/assets/common/bigUserHeader.png" alt="">
-            管理员<i class="el-icon-arrow-down el-icon--right" />
+            <img :src="userinfo.staffPhoto" alt="" />
+            {{ userinfo.username
+            }}<i class="el-icon-arrow-down el-icon--right" />
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>首页</el-dropdown-item>
@@ -25,21 +26,21 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
-    return {}
+    return {};
   },
   computed: {
-    ...mapGetters(['sidebar'])
+    ...mapGetters(["sidebar", "userinfo"]),
   },
   methods: {
-    ...mapActions(['app/toggleSideBar']),
+    ...mapActions(["app/toggleSideBar"]),
     setStatus() {
-      this['app/toggleSideBar']()
-    }
-  }
-}
+      this["app/toggleSideBar"]();
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

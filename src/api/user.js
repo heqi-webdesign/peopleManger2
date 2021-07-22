@@ -12,8 +12,16 @@ export function logiAPI(data) {
 // 获取用户信息
 export function getuserInfoAPI() {
   return request({
-    url: '/sys/profile',  
+    url: '/sys/profile',
     method: 'POST'
+  })
+}
+
+// 获取用户头像
+export function getuserImgApi(id) {
+  return request({
+    url: `/sys/user/${id}`,
+    method: 'GET'
   })
 }
 

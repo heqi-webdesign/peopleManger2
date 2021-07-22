@@ -1,4 +1,7 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
+// 调接口保存数据
+import { getuserInfoAPI, getuserImgApi } from '@/api/user' // 导入获取用户信息api
+
 export default {
   namespaced: true,
   state: {
@@ -36,8 +39,10 @@ export default {
       context.commit('REMOVETOKEN')
     },
     // 调用获取用户信息
-    getuserInfo(context, payload) {
-      context.commit('GETUSERINFO', payload)
+    async getuserInfo(context) {
+      const res = await getuserInfoAPI()
+      const result = await getuserImgApi(res.userId)
+      context.commit('GETUSERINFO', { ...res, ...result })
     },
     removeUserinfo(context) {
       context.commit('REMOVEUSERINFO')

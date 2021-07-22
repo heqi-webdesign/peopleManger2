@@ -14,6 +14,11 @@ router.beforeEach((to, from, next) => {
   const token = store.getters.token
   // 如果token存在 就next()
   if (token) {
+    // 如果有用户信息向后执行 没有则请求用户信息向后执行
+    if (!store.getters.userinfo.userId) {
+      // 有token 没有用户信息 先发送请求获取数据
+      store.dispatch('user/getuserInfo')
+    }
     // 有token去登录页 就直接到首页 没有则直接放走
     if (to.path === '/login') {
       next('/')
