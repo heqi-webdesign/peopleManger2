@@ -11,7 +11,7 @@
       <div>
         <el-dropdown>
           <span class="el-dropdown-link">
-            <img :src="userinfo.staffPhoto" alt="" />
+            <img v-imgError="imgs" :src="userinfo.staffPhoto" alt="" />
             {{ userinfo.username
             }}<i class="el-icon-arrow-down el-icon--right" />
           </span>
@@ -29,7 +29,9 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      imgs: require("../../assets/common/bigUserHeader.png"),
+    };
   },
   computed: {
     ...mapGetters(["sidebar", "userinfo"]),
