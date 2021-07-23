@@ -9,7 +9,7 @@
 
     <div class="right">
       <div>
-        <el-dropdown>
+        <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
             <img v-imgError="imgs" :src="userinfo.staffPhoto" alt="" />
             {{ userinfo.username
@@ -17,7 +17,7 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>首页</el-dropdown-item>
-            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -27,6 +27,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { removeToken } from "@/utils/auth";
 export default {
   data() {
     return {
@@ -37,9 +38,23 @@ export default {
     ...mapGetters(["sidebar", "userinfo"]),
   },
   methods: {
-    ...mapActions(["app/toggleSideBar"]),
+    ...mapActions([
+      "app/toggleSideBar",
+      "user/removetoken",
+      "user/removeUserinfo",
+    ]),
     setStatus() {
       this["app/toggleSideBar"]();
+    },
+    // 实现退出登录的功能 删除token 本地userinfo 跳转登陆页面
+    handleCommand(command) {
+      if (command === "logout") {
+        removeToken();
+        this["user/removetoken"]();
+        this["user/removeUserinfo"]();
+        this.$router.push("/login");
+        this.$message.success("退出成功");
+      }
     },
   },
 };
