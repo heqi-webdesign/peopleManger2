@@ -1,4 +1,5 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getuserInfoAPI, getuserInfoBaseAPI } from '@/api/user'
 export default {
   namespaced: true,
   state: {
@@ -8,39 +9,46 @@ export default {
   },
   mutations: {
     // 设置token
-    SETTOKEN(state, payload) {
+    SETTOKEN (state, payload) {
       setToken(payload)
       state.token = payload
     },
     // 删除token
-    REMOVETOKEN(state) {
+    REMOVETOKEN (state) {
       removeToken()
       state.token = null
     },
     // 获得用户信息
-    GETUSERINFO(state, payload) {
+    GETUSERINFO (state, payload) {
       state.userinfo = payload
     },
     // 删除用户信息
-    REMOVEUSERINFO(state) {
+    REMOVEUSERINFO (state) {
       state.userinfo = null
     }
   },
   actions: {
     // 调用设置
-    settoken(context, payload) {
+    settoken (context, payload) {
       context.commit('SETTOKEN', payload)
     },
     // 调用删除
-    removetoken(context) {
+    removetoken (context) {
       context.commit('REMOVETOKEN')
     },
     // 调用获取用户信息
-    getuserInfo(context, payload) {
-      context.commit('GETUSERINFO', payload)
+    async getuserInfo (context) {
+      const res = await getuserInfoAPI()
+      const result = await getuserInfoBaseAPI(res.userId)
+      context.commit('GETUSERINFO', { ...res, ...result })
     },
-    removeUserinfo(context) {
+    removeUserinfo (context) {
       context.commit('REMOVEUSERINFO')
+    },
+    // 退出登录
+    logout (context) {
+      context.commit('REMOVEUSERINFO')
+      context.commit('REMOVETOKEN')
     }
   }
 }

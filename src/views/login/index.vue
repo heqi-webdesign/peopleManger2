@@ -3,7 +3,7 @@
     <div class="top">
       <div class="wrapper">
         <div class="title">
-          <img src="../../assets/common/login-logo.png" alt="">
+          <img src="../../assets/common/login-logo.png" alt="" />
         </div>
 
         <el-form ref="gform" :model="formdate" :rules="rules">
@@ -34,7 +34,7 @@
 <script>
 import { logiAPI } from '@/api/user'
 export default {
-  data() {
+  data () {
     return {
       // 获取数据 发起请求
       formdate: {
@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     // 登录
-    loginIn() {
+    loginIn () {
       // 表单校验
       this.$refs.gform.validate(async result => {
         if (result) {
@@ -85,7 +85,7 @@ export default {
           } catch (err) {
             console.log(err)
           } finally {
-            // 无论如何关闭旋转等待
+            // 无论如何关闭等待
             this.loading = false
           }
         } else {

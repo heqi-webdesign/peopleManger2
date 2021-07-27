@@ -9,14 +9,15 @@
 
     <div class="right">
       <div>
-        <el-dropdown>
+        <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
-            <img src="@/assets/common/bigUserHeader.png" alt="">
-            管理员<i class="el-icon-arrow-down el-icon--right" />
+            <img :src="userinfo.staffPhoto" alt="" />
+            {{ userinfo.username
+            }}<i class="el-icon-arrow-down el-icon--right" />
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>首页</el-dropdown-item>
-            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item command="1">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -27,16 +28,23 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  data() {
+  data () {
     return {}
   },
   computed: {
-    ...mapGetters(['sidebar'])
+    ...mapGetters(['sidebar', 'userinfo'])
   },
   methods: {
-    ...mapActions(['app/toggleSideBar']),
-    setStatus() {
+    ...mapActions(['app/toggleSideBar', 'user/logout']),
+    setStatus () {
       this['app/toggleSideBar']()
+    },
+    handleCommand (command) {
+      if (command === '1') {
+        this['user/logout']()
+        this.$message.success('退出登录成功')
+        this.$router.push('/login')
+      }
     }
   }
 }
