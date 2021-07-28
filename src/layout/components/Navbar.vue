@@ -11,8 +11,8 @@
       <div>
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
-            <img v-errorImg="img" :src="userinfo.staffPhoto" alt="" />
-            {{ userinfo.username
+            <img v-errorImg="img" :src="userinfo.staffPhoto || img" alt="" />
+            {{ userinfo.username || '管理员'
             }}<i class="el-icon-arrow-down el-icon--right" />
           </span>
           <el-dropdown-menu slot="dropdown">

@@ -24,7 +24,7 @@ export default {
     },
     // 删除用户信息
     REMOVEUSERINFO (state) {
-      state.userinfo = null
+      state.userinfo = {}
     }
   },
   actions: {

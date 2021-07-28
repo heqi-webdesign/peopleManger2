@@ -18,6 +18,7 @@ router.beforeEach((to, from, next) => {
     if (!store.getters.userinfo.userId) {
       store.dispatch('user/getuserInfo')
     }
+
     // 有token去登录页 就直接到首页 没有则直接放走
     if (to.path === '/login') {
       next('/')
