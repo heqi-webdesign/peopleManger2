@@ -11,7 +11,7 @@
       <div>
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
-            <img :src="userinfo.staffPhoto" alt="" />
+            <img v-errorImg="img" :src="userinfo.staffPhoto" alt="" />
             {{ userinfo.username
             }}<i class="el-icon-arrow-down el-icon--right" />
           </span>
@@ -26,10 +26,13 @@
 </template>
 
 <script>
+import img from '../../assets/common/bigUserHeader.png'
 import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
-    return {}
+    return {
+      img: img
+    }
   },
   computed: {
     ...mapGetters(['sidebar', 'userinfo'])

@@ -14,8 +14,8 @@ router.beforeEach((to, from, next) => {
   const token = store.getters.token
   // 如果token存在 就next()
   if (token) {
+    // 没有用户信息 就获取到用户信息
     if (!store.getters.userinfo.userId) {
-      console.log(1)
       store.dispatch('user/getuserInfo')
     }
     // 有token去登录页 就直接到首页 没有则直接放走
