@@ -3,6 +3,8 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 // 获得token
 import store from '@/store'
+// 路由跳转
+import router from '@/router'
 
 const request = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -34,14 +36,31 @@ request.interceptors.response.use(
       return data
     } else {
       // 此时登录失败 返回了false
-      Message.error('登陆失败:' + message)
+      Message.error('登陆失败1:' + message)
       return Promise.reject(error)
     }
+    // 添加判断
   },
   // 响应失败
   error => {
+    // token超时
+    if (
+      error.response ||
+      error.response.data ||
+      error.response.code === 10002
+    ) {
+      try {
+        store.dispatch('user/logout').then(res => {
+          if (res) {
+            router.push('/login')
+          }
+        })
+      } catch {
+        console.log('token超时')
+      }
+    }
     // 返回提示信息
-    Message.error('登陆失败:' + error.message)
+    Message.error('登陆失败2:' + error.message)
     return Promise.reject(error)
   }
 )

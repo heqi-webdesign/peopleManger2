@@ -41,14 +41,16 @@ export default {
       const res = await getuserInfoAPI()
       const result = await getuserInfoBaseAPI(res.userId)
       context.commit('GETUSERINFO', { ...res, ...result })
+      return res
     },
     removeUserinfo (context) {
       context.commit('REMOVEUSERINFO')
     },
     // 退出登录
-    logout (context) {
+    async logout (context) {
       context.commit('REMOVEUSERINFO')
       context.commit('REMOVETOKEN')
+      return true
     }
   }
 }
