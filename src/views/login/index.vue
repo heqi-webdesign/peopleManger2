@@ -33,6 +33,7 @@
 
 <script>
 import { logiAPI } from '@/api/user'
+import { setTimestamp } from '../../utils/auth'
 export default {
   data () {
     return {
@@ -80,7 +81,9 @@ export default {
             })
             // 请求成功逻辑 提示用户 保存token 跳转页面
             this.$message.success('登陆成功')
-            this.$store.dispatch('user/settoken', res)
+            this.$store
+              .dispatch('user/settoken', res)
+              .then(() => setTimestamp())
             this.$router.push('/')
           } catch (err) {
             console.log(err)

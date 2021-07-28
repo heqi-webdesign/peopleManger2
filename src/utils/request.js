@@ -1,10 +1,8 @@
-// 封装axios
-import axios from 'axios'
+import axios from 'axios' // 封装axios
 import { Message } from 'element-ui'
-// 获得token
-import store from '@/store'
-// 路由跳转
-import router from '@/router'
+import store from '@/store' // 获得token
+import router from '@/router' // 路由跳转
+import { getTimestamp, removeTimestamp } from '@/utils/auth'
 
 const request = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -17,6 +15,16 @@ request.interceptors.request.use(
     // 添加一个判断 如果有token 就添加上请求头 附带token
     const token = store.getters.token
     if (token) {
+      // token失效主动介入
+      if (Date.now() - getTimestamp() > 5000) {
+        removeTimestamp()
+        store.dispatch('user/logout').then(res => {
+          if (res) {
+            router.push('/login')
+            return Message.error('token超时，重新登录')
+          }
+        })
+      }
       config.headers.Authorization = `Bearer ${token}`
     }
     return config
@@ -37,13 +45,13 @@ request.interceptors.response.use(
     } else {
       // 此时登录失败 返回了false
       Message.error('登陆失败1:' + message)
-      return Promise.reject(error)
+      return new Promise(new Error('登陆失败'))
     }
     // 添加判断
   },
   // 响应失败
   error => {
-    // token超时
+    // token超时 失效被动介入
     if (
       error.response ||
       error.response.data ||
@@ -60,7 +68,6 @@ request.interceptors.response.use(
       }
     }
     // 返回提示信息
-    Message.error('登陆失败2:' + error.message)
     return Promise.reject(error)
   }
 )
