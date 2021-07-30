@@ -13,7 +13,7 @@
       >
         <sidebar-item
           v-for="route in routes"
-          :key="route.path"
+          :key="route.redirect"
           :item="route"
           :base-path="route.path"
         />
@@ -32,10 +32,10 @@ export default {
   components: { SidebarItem, Logo },
   computed: {
     ...mapGetters(['sidebar']),
-    routes() {
+    routes () {
       return this.$router.options.routes
     },
-    activeMenu() {
+    activeMenu () {
       const route = this.$route
       const { meta, path } = route
       // if set path, the sidebar will highlight the path you set
@@ -44,15 +44,23 @@ export default {
       }
       return path
     },
-    showLogo() {
+    showLogo () {
       return this.$store.state.settings.sidebarLogo
     },
-    variables() {
+    variables () {
       return variables
     },
-    isCollapse() {
+    isCollapse () {
       return !this.sidebar.opened
     }
   }
 }
 </script>
+<style lang="scss" scoped>
+.el-menu {
+  background-color: transparent;
+}
+::v-deep .is-active.is-active {
+  background-color: #ccc;
+}
+</style>

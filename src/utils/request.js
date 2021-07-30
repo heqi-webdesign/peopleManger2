@@ -16,7 +16,7 @@ request.interceptors.request.use(
     const token = store.getters.token
     if (token) {
       // token失效主动介入
-      if (Date.now() - getTimestamp() > 5000) {
+      if (Date.now() - getTimestamp() > 6000000) {
         removeTimestamp()
         store.dispatch('user/logout').then(res => {
           if (res) {
